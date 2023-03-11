@@ -1,0 +1,27 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Mutation {
+  createTask(input: TaskCreateInput!): TaskCreatePayload!
+}
+
+type Query {
+  task(id: String!): Task!
+}
+
+type Task {
+  description: String!
+  done: Boolean!
+  id: ID!
+  title: String!
+}
+
+input TaskCreateInput {
+  description: String!
+  title: String!
+}
+
+type TaskCreatePayload {
+  task: Task!
+}

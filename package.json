@@ -1,0 +1,23 @@
+{
+  "name": "nestjs-graphql-cqrs-sample",
+  "version": "0.0.1",
+  "author": "ucho",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "dotenv -- turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint"
+  },
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "volta": {
+    "node": "18.14.0",
+    "yarn": "1.22.19"
+  },
+  "dependencies": {
+    "dotenv-cli": "^7.0.0"
+  }
+}

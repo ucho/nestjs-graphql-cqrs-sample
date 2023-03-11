@@ -1,0 +1,17 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "pipeline": {
+    "dev": {
+      "dependsOn": ["supergraph:compose"],
+      "cache": false
+    },
+    "build": {
+      "dependsOn": ["supergraph:compose"],
+      "outputs": ["dist/**"]
+    },
+    "supergraph:compose": {
+      "outputs": ["supergraph.gql"]
+    }
+  }
+}

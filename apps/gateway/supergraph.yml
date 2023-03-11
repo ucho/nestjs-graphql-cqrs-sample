@@ -1,0 +1,10 @@
+federation_version: 2
+subgraphs:
+  todo-read:
+    routing_url: http://localhost:3000/graphql
+    schema:
+      file: ../todo-read/schema.gql
+  todo-write:
+    routing_url: http://localhost:3001/graphql
+    schema:
+      file: ../todo-write/schema.gql

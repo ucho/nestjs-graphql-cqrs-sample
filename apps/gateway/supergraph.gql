@@ -1,0 +1,79 @@
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+  @link(url: "https://specs.apollo.dev/join/v0.3", for: EXECUTION)
+{
+  query: Query
+  mutation: Mutation
+}
+
+directive @join__enumValue(graph: join__Graph!) repeatable on ENUM_VALUE
+
+directive @join__field(graph: join__Graph, requires: join__FieldSet, provides: join__FieldSet, type: String, external: Boolean, override: String, usedOverridden: Boolean) repeatable on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__implements(graph: join__Graph!, interface: String!) repeatable on OBJECT | INTERFACE
+
+directive @join__type(graph: join__Graph!, key: join__FieldSet, extension: Boolean! = false, resolvable: Boolean! = true, isInterfaceObject: Boolean! = false) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
+
+directive @join__unionMember(graph: join__Graph!, member: String!) repeatable on UNION
+
+directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
+
+scalar join__FieldSet
+
+enum join__Graph {
+  TODO_READ @join__graph(name: "todo-read", url: "http://localhost:3000/graphql")
+  TODO_WRITE @join__graph(name: "todo-write", url: "http://localhost:3001/graphql")
+}
+
+scalar link__Import
+
+enum link__Purpose {
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+
+  """
+  `EXECUTION` features provide metadata necessary for operation execution.
+  """
+  EXECUTION
+}
+
+type Mutation
+  @join__type(graph: TODO_WRITE)
+{
+  createTask(input: TaskCreateInput!): TaskCreatePayload!
+}
+
+type Query
+  @join__type(graph: TODO_READ)
+  @join__type(graph: TODO_WRITE)
+{
+  tasks: [Task!]! @join__field(graph: TODO_READ)
+  task(id: String!): Task! @join__field(graph: TODO_WRITE)
+}
+
+type Task
+  @join__type(graph: TODO_READ)
+  @join__type(graph: TODO_WRITE)
+{
+  description: String!
+  done: Boolean!
+  id: ID!
+  title: String!
+}
+
+input TaskCreateInput
+  @join__type(graph: TODO_WRITE)
+{
+  description: String!
+  title: String!
+}
+
+type TaskCreatePayload
+  @join__type(graph: TODO_WRITE)
+{
+  task: Task!
+}
